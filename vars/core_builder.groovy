@@ -140,8 +140,8 @@ def call(Map config) {
             }
             success {
                 script {
-                    def buildTime = lib_teamsNotifications.getBuildTime()
-                    lib_teamsNotifications('Success', "The build has completed successfully in ${buildTime}.", 'teams-webhook-url')
+                    def buildTime = lib_teamsnotifications.getBuildTime()
+                    lib_teamsnotifications('Success', "The build has completed successfully in ${buildTime}.", 'teams-webhook-url')
                 }
                 script {
                     def publisher = LastChanges.getLastChangesPublisher("PREVIOUS_REVISION", "SIDE", "LINE", true, true, "", "", "", "", "")
@@ -154,8 +154,8 @@ def call(Map config) {
             }
             failure {
                 script {
-                    def buildTime = lib_teamsNotifications.getBuildTime()
-                    lib_teamsNotifications('Failure', "The build has failed after ${buildTime}. Please check the logs for details.", 'teams-webhook-url')
+                    def buildTime = lib_teamsnotifications.getBuildTime()
+                    lib_teamsnotifications('Failure', "The build has failed after ${buildTime}. Please check the logs for details.", 'teams-webhook-url')
                 }
             }
         }

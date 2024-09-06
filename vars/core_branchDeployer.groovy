@@ -115,8 +115,8 @@ def call(Map config) {
                     )
                 }
                 script {
-                    def buildTime = lib_teamsnotifications.getBuildTime()
-                    lib_teamsnotifications('Success', "The deployment has completed successfully in ${buildTime}. Current version is: ${env.CONTAINER_IMAGE_ID}", 'teams-webhook-url')
+                    def buildTime = lib_teamsNotifications.getBuildTime()
+                    lib_teamsNotifications('Success', "The deployment has completed successfully in ${buildTime}. Current version is: ${env.CONTAINER_IMAGE_ID}", 'teams-webhook-url')
                 }
                 script {
                     def publisher = LastChanges.getLastChangesPublisher("PREVIOUS_REVISION", "SIDE", "LINE", true, true, "", "", "", "", "")

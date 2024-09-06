@@ -155,7 +155,7 @@ def call(Map config) {
             failure {
                 script {
                     def buildTime = lib_teamsNotifications.getBuildTime()
-                    lib_teamsNotifications.notify('Failure', "The build has failed after ${buildTime}. Please check the logs for details.", 'teams-webhook-url')
+                    lib_teamsNotifications('Failure', "The build has failed after ${buildTime}. Please check the logs for details.", 'teams-webhook-url')
                 }
             }
         }

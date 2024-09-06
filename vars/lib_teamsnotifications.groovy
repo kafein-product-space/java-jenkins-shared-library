@@ -1,17 +1,8 @@
-// vars/myPipeline.groovy
 def call(String status, String message, String credentialsId) {
     def colors = [
-        'Success': 'Good',
-        'Failure': 'Attention'
+        'Success': 'Good',    // green color for success
+        'Failure': 'Attention' // red color for failure
     ]
-
-    def getBuildTime() {
-        def durationMillis = currentBuild.duration ?: 0
-        def durationSeconds = (durationMillis / 1000).toLong()
-        def minutes = (durationSeconds / 60).toLong()
-        def seconds = (durationSeconds % 60).toLong()
-        return "${minutes}m ${seconds}s"
-    }
 
     if (!colors.containsKey(status)) {
         error "Invalid status: $status"
@@ -19,9 +10,9 @@ def call(String status, String message, String credentialsId) {
 
     def color = colors[status]
     def title = "Jenkins Build Notification"
-    def jobName = env.JOB_NAME
-    def jobLink = env.BUILD_URL
-    def buildNumber = env.BUILD_NUMBER
+    def jobName = env.JOB_NAME        // Get the Jenkins job name
+    def jobLink = env.BUILD_URL       // Get the direct link to the Jenkins job
+    def buildNumber = env.BUILD_NUMBER // Get the build number
 
     withCredentials([string(credentialsId: "${credentialsId}", variable: 'webhookUrl')]) {
         def payload = [
@@ -100,6 +91,7 @@ def call(String status, String message, String credentialsId) {
             ]
         ]
 
+        // Send the notification to the Teams webhook
         def response = httpRequest(
             httpMode: 'POST',
             contentType: 'APPLICATION_JSON',
@@ -109,4 +101,17 @@ def call(String status, String message, String credentialsId) {
 
         echo "Response: ${response}"
     }
+}
+
+def getBuildTime() {
+    def durationMillis = currentBuild.duration ?: 0
+
+    // Convert durationMillis to seconds
+    def durationSeconds = (durationMillis / 1000).toLong()
+
+    // Calculate minutes and seconds
+    def minutes = (durationSeconds / 60).toLong()
+    def seconds = (durationSeconds % 60).toLong()
+
+    return "${minutes}m ${seconds}s"
 }

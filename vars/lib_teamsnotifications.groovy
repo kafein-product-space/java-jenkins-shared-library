@@ -1,3 +1,4 @@
+// README: This library works with Teams Workflows (PowerAutomate app, not connector. You must configure Credentials id and webhook url)
 def call(String status, String message, String credentialsId) {
     def colors = [
         'Success': 'Good',    // green color for success

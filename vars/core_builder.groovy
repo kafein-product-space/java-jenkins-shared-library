@@ -135,7 +135,7 @@ def call(Map config) {
             always {
                 script {
                     lib_cleanupController(config)
-                    lib_postBuildController(config)
+                    lib_postbuildController(config)
                 }
                 // Archive the Trivy HTML report
                 archiveArtifacts artifacts: 'trivy-reports/*.html', allowEmptyArchive: true                

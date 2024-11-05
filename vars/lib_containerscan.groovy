@@ -16,6 +16,8 @@ def trivyScan(Map config, String imageName, String outputDir = "trivy-reports", 
                 -v ${templateDir}/html.tpl:/html.tpl \
                 -v ${env.WORKSPACE}/${outputDir}:/${outputDir} \
                 aquasec/trivy:latest image \
+                --db-repository public.ecr.aws/aquasecurity/trivy-db \
+                --java-db-repository public.ecr.aws/aquasecurity/trivy-java-db \
                 --no-progress --format template --scanners vuln \
                 --template "@html.tpl" \
                 --exit-code 1 \

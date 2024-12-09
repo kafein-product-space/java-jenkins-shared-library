@@ -26,6 +26,7 @@ def call(Map config) {
         stages {
             stage("Configure Init") {
                 steps {
+                    updateGitlabCommitStatus name: 'build', state: 'running'
                     script {
                         lib_helper.configureInit(config)
                     }
@@ -39,7 +40,6 @@ def call(Map config) {
                         branches: [[name: config.target_branch.startsWith("refs") ? config.target_branch : "refs/heads/${config.target_branch}"]],
                         submoduleCfg: [],
                         userRemoteConfigs: [config.scm_global_config]
-                        updateGitlabCommitStatus name: 'build', state: 'running'
                     ]
                 }
             }
@@ -128,6 +128,7 @@ def call(Map config) {
                 }
             }
             success {
+                updateGitlabCommitStatus name: 'build', state: 'success'
                 script {
                     def buildTime = lib_teamsnotifications.getBuildTime()
                     def trivyMessage = env.TRIVY_STATUS ?: "Trivy scan status not available"
@@ -143,6 +144,7 @@ def call(Map config) {
                 }
             }
             failure {
+                updateGitlabCommitStatus name: 'build', state: 'failed'
                 script {
                     def buildTime = lib_teamsnotifications.getBuildTime()
                     def trivyMessage = env.TRIVY_STATUS ?: "Trivy scan status not available"

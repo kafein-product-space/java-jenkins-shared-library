@@ -1,6 +1,5 @@
 def call(Map config) {
-    def triggerRef = config.containsKey('trigger_ref') ? config.trigger_ref : '$.push.changes[0].old.name'
-    def triggerRegexpFilter = config.containsKey('trigger_regexp_filter') ? config.trigger_regexp_filter : '^(development|uat)'
+    def triggerRegexpFilter = config.containsKey('trigger_regexp_filter') ? config.trigger_regexp_filter : '^refs/heads/(dev|test|demo|uat|main|preprod)$'
 
     if (config.containsKey("github_hook") && config.github_hook) {
         properties([pipelineTriggers([githubPush()])])
@@ -20,18 +19,11 @@ def call(Map config) {
         }
 
         triggers {
-            GenericTrigger(
-                genericVariables: [
-                    [key: 'REF', value: triggerRef]
-                ],
-                causeString: 'Triggered by Remote Event',
-                token: 'bitbucket_' + config.sonar_qube_project_key,
-                printContributedVariables: false,
-                printPostContent: false,
-                silentResponse: false,
-                shouldNotFlatten: false,
-                regexpFilterText: '$REF',
-                regexpFilterExpression: triggerRegexpFilter
+            gitlabPush(
+                triggerOnPush: true, 
+                triggerOnMergeRequest: false, 
+                branchFilterType: "RegexBasedFilter", 
+                targetBranchRegex: triggerRegexpFilter // Using config variable
             )
         }
 

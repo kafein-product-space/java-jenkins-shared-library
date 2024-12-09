@@ -19,6 +19,8 @@ def call(Map config) {
                             config
                         )
                     }
+                    sh 'printenv'
+                    sh 'echo branchdeployer'
                 }
             }
 

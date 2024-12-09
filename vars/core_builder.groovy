@@ -30,6 +30,7 @@ def call(Map config) {
                     script {
                         lib_helper.configureInit(config)
                     }
+                    sh 'printenv'
                 }
             }
 

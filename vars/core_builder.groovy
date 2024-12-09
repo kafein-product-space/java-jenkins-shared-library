@@ -39,6 +39,7 @@ def call(Map config) {
                         branches: [[name: config.target_branch.startsWith("refs") ? config.target_branch : "refs/heads/${config.target_branch}"]],
                         submoduleCfg: [],
                         userRemoteConfigs: [config.scm_global_config]
+                        updateGitlabCommitStatus name: 'build', state: 'running'
                     ]
                 }
             }

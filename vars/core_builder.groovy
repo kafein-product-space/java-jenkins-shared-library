@@ -1,10 +1,6 @@
 def call(Map config) {
     def triggerRegexpFilter = config.containsKey('regexp_trigger_filter') ? config.regexp_trigger_filter : '^refs/heads/(dev|test|demo|uat|main|preprod)$'
 
-    if (config.containsKey("github_hook") && config.github_hook) {
-        properties([pipelineTriggers([githubPush()])])
-    }
-
     pipeline {
         agent { label config.agent }
 

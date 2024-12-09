@@ -19,7 +19,7 @@ def call(Map config) {
         }
 
         triggers {
-            gitlabPush(
+            gitlab(
                 triggerOnPush: true, 
                 triggerOnMergeRequest: false, 
                 branchFilterType: "RegexBasedFilter", 

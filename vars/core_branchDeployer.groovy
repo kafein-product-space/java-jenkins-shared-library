@@ -13,6 +13,7 @@ def call(Map config) {
         stages {
             stage("Configure Init") {
                 steps {
+                    updateGitlabCommitStatus name: 'deploy', state: 'running'
                     script {
                         lib_helper.configureInit(
                             config
@@ -107,6 +108,7 @@ def call(Map config) {
                 }
             }
             success {
+                updateGitlabCommitStatus name: 'deploy', state: 'success'
                 buildDescription("Container ID: ${env.CONTAINER_IMAGE_ID}")
 
                 script {
@@ -128,6 +130,7 @@ def call(Map config) {
                 }
             }
             failure {
+                updateGitlabCommitStatus name: 'deploy', state: 'failed'
                 script {
                     def buildTime = lib_teamsnotifications.getBuildTime()
                     lib_teamsnotifications('Failure', "The build has failed after ${buildTime}. Please check the logs for details.", 'teams-webhook-url')
